@@ -99,12 +99,15 @@
 		C34ED8E129616B5F00E7AE77 /* Pixxy */ = {
 			isa = PBXGroup;
 			children = (
+				C34ED91529616CCF00E7AE77 /* Storyboards */,
+				C34ED91429616CBC00E7AE77 /* ViewModels */,
+				C34ED91329616CB500E7AE77 /* Models */,
+				C34ED91229616CA400E7AE77 /* Controllers */,
+				C34ED91729616D0700E7AE77 /* Services */,
+				C34ED91629616CF000E7AE77 /* Utilities */,
+				C34ED91829616D1B00E7AE77 /* Resources */,
 				C34ED8E229616B5F00E7AE77 /* AppDelegate.swift */,
 				C34ED8E429616B5F00E7AE77 /* SceneDelegate.swift */,
-				C34ED8E629616B5F00E7AE77 /* ViewController.swift */,
-				C34ED8E829616B5F00E7AE77 /* Main.storyboard */,
-				C34ED8EB29616B6200E7AE77 /* Assets.xcassets */,
-				C34ED8ED29616B6200E7AE77 /* LaunchScreen.storyboard */,
 				C34ED8F029616B6200E7AE77 /* Info.plist */,
 			);
 			path = Pixxy;
@@ -125,6 +128,59 @@
 				C34ED90529616B6200E7AE77 /* PixxyUITestsLaunchTests.swift */,
 			);
 			path = PixxyUITests;
+			sourceTree = "<group>";
+		};
+		C34ED91229616CA400E7AE77 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C34ED8E629616B5F00E7AE77 /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		C34ED91329616CB500E7AE77 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C34ED91429616CBC00E7AE77 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		C34ED91529616CCF00E7AE77 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				C34ED8E829616B5F00E7AE77 /* Main.storyboard */,
+				C34ED8ED29616B6200E7AE77 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		C34ED91629616CF000E7AE77 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		C34ED91729616D0700E7AE77 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		C34ED91829616D1B00E7AE77 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C34ED8EB29616B6200E7AE77 /* Assets.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

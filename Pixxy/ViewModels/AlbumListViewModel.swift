@@ -9,8 +9,8 @@ import Foundation
 import Combine
 
 class AlbumListViewModel {
-    @Published var isAlbumsLoading = false
-    @Published var reloadAlbumList = false
+    @Published private(set) var isAlbumsLoading = false
+    @Published private(set) var reloadAlbumList = false
     private var albumService: DataFetchable
     private var cancellables = Set<AnyCancellable>()
     private var albumViewModels = [AlbumViewModel]() {
@@ -58,12 +58,16 @@ class AlbumListViewModel {
     }
     
     private func processAlbums(albums: [Album]) {
-        var viewModels = [AlbumViewModel]()
-        for album in albums {
-            let albumVm = AlbumViewModel(albumID:album.albumId, titleText: album.albumTitle, nameText: album.owner)
-            viewModels.append(albumVm)
+        //TODO: User initiated or user interactive
+        //TODO: Weak self or self
+        DispatchQueue.global(qos: .userInteractive).async {
+            var viewModels = [AlbumViewModel]()
+            for album in albums {
+                let albumVm = AlbumViewModel(albumID:album.albumId, titleText: album.albumTitle, nameText: album.owner)
+                viewModels.append(albumVm)
+            }
+            self.albumViewModels = viewModels
         }
-        albumViewModels = viewModels
     }
 }
 

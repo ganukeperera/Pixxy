@@ -13,10 +13,10 @@ class AlbumListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     private var cancellables = Set<AnyCancellable>()
-    
     lazy var albumListViewModel: AlbumListViewModel = {
         return AlbumListViewModel()
     }()
+    private var photoCollectionViewModelForSelectedItem: PhotoCollectionViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +69,7 @@ extension AlbumListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constant.CellReuseId.albumCellId, for: indexPath) as? AlbumListTableViewCell else {
-            fatalError("Cell is Missing")
+            fatalError("AlbumListTableViewCell is not found")
         }
         cell.albumViewModel = albumListViewModel.getAlbumViewModel(at: indexPath.row)
         return cell
@@ -78,11 +78,24 @@ extension AlbumListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return albumListViewModel.numberOfAlbums
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Constant.SegueIdentifier.showPhotoCollection
+            {
+                if let destinationVC = segue.destination as? PhotoCollectionViewController {
+                    destinationVC.photoCollectionViewModel = photoCollectionViewModelForSelectedItem
+                }
+            }
+    }
 }
 
 extension AlbumListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        guard let selectedViewModel = albumListViewModel.getAlbumViewModel(at: indexPath.row) else {
+            fatalError("Cannot load the album view model for the selected cell in AlbumListViewController")
+        }
+        photoCollectionViewModelForSelectedItem = PhotoCollectionViewModel(albumID: selectedViewModel.albumID)
+        performSegue(withIdentifier: Constant.SegueIdentifier.showPhotoCollection, sender: self)
     }
 }
 

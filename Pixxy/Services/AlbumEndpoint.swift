@@ -20,6 +20,7 @@ enum AlbumEndpoint: Endpoint {
     
     case fetchAllAlbums
     case fetchAllUsers
+    case fetchPhotos(albumId: Int)
     
     var scheme: String{
         return "https"
@@ -38,11 +39,15 @@ enum AlbumEndpoint: Endpoint {
             return "/albums"
         case .fetchAllUsers:
             return "/users"
+        case .fetchPhotos:
+            return "/photos"
         }
     }
     
     var components: [URLQueryItem] {
         switch self {
+        case .fetchPhotos(let albumId):
+            return [URLQueryItem(name: "albumId", value: String(albumId))]
         default:
             return []
         }

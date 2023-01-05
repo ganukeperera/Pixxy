@@ -14,7 +14,8 @@ struct Constant {
     }
     
     struct SegueIdentifier {
-        static let showPhotoCollection = "showPhotoCollection"
+        static let toPhotoCollectionVC = "showPhotoCollection"
+        static let toPhotoDetailVC = "showPhotoDetailView"
     }
     
     struct Network {

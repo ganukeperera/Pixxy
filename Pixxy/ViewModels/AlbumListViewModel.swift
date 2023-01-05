@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class AlbumListViewModel {
+class AlbumListViewModel: ObservableObject {
     @Published private(set) var isAlbumsLoading = false
     @Published private(set) var reloadAlbumList = false
     private var albumService: DataFetchable
@@ -40,8 +40,8 @@ class AlbumListViewModel {
         let userEndopoint = AlbumEndpoint.fetchAllUsers
         
         Publishers.Zip(
-            self.albumService.fetchData(endpoint: albumEndopoint, type: [AlbumDTO].self),
-            self.albumService.fetchData(endpoint: userEndopoint, type: [UserDTO].self)
+            self.albumService.fetch(endpoint: albumEndopoint, type: [AlbumDTO].self),
+            self.albumService.fetch(endpoint: userEndopoint, type: [UserDTO].self)
         ).sink(receiveCompletion: { print($0) },
                receiveValue: { [weak self] albumList, users in
             

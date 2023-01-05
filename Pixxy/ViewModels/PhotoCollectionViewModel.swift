@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class PhotoCollectionViewModel {
+class PhotoCollectionViewModel: ObservableObject {
     
     @Published private(set) var isPhotosLoading = false
     @Published private(set) var reloadPhotoCollection = false
@@ -39,7 +39,8 @@ class PhotoCollectionViewModel {
     
     func fetchPhotos(){
         isPhotosLoading = true
-        photosService.fetchData(endpoint: AlbumEndpoint.fetchPhotos(albumId: albumID), type: [Photo].self).sink { completion in
+        photosService.fetch(endpoint: AlbumEndpoint.fetchPhotos(albumId: albumID), type: [Photo].self)
+            .sink { completion in
             switch completion {
             case .failure(let error):
                 break
@@ -66,8 +67,35 @@ class PhotoCollectionViewModel {
     }
 }
 
-struct PhotoViewModel {
+class PhotoViewModel: ObservableObject {
     let title: String
     let thumbnailUrl: String
     let url: String
+    private let photoService: ResourceLoader
+    private var cancellables = Set<AnyCancellable>()
+    @Published private(set) var imageData: Data?
+    
+    init(title: String, thumbnailUrl: String, url: String, photoService: ResourceLoader = PhotoService()) {
+        self.title = title
+        self.thumbnailUrl = thumbnailUrl
+        self.url = url
+        self.photoService = photoService
+    }
+    
+    func fetchPhotoData() {
+        photoService.fetchData(from: thumbnailUrl)
+            .sink { completion in
+                //TODO: Error handling
+                switch completion {
+                case .failure(let error):
+                    break
+                case .finished:
+                    break
+                }
+            } receiveValue: {[weak self] data in
+                self?.imageData = data
+            }
+            .store(in: &cancellables)
+
+    }
 }

@@ -14,8 +14,9 @@ class PhotoCollectionViewController: UICollectionViewController {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     private var cancellables = Set<AnyCancellable>()
+    private var photoDetailViewModelForSelectedCell: PhotoDetailViewModel?
     var photoCollectionViewModel: PhotoCollectionViewModel?
-        
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,21 +72,73 @@ class PhotoCollectionViewController: UICollectionViewController {
             fatalError("PhotoCollectionViewCell is not found")
         }
         cell.photoViewModel = photoCollectionViewModel?.getPhotoViewModel(at: indexPath.row)
+        cell.setup()
         return cell
+    }
+    
+    //MARK: - Collection View Delegate method
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let selectedPhotoViewModel = photoCollectionViewModel?.getPhotoViewModel(at: indexPath.row) else {
+            //TODO: what to do
+            return
+        }
+        photoDetailViewModelForSelectedCell = PhotoDetailViewModel(photoURL: selectedPhotoViewModel.url)
+        performSegue(withIdentifier: Constant.SegueIdentifier.toPhotoDetailVC, sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Constant.SegueIdentifier.toPhotoDetailVC
+            {
+                if let destinationVC = segue.destination as? PhotoDetailViewController {
+                    destinationVC.photoDetailViewMode = photoDetailViewModelForSelectedCell
+                }
+            }
     }
 }
 
 class PhotoCollectionViewCell: UICollectionViewCell{
     
     @IBOutlet weak var thumbinailImage: UIImageView!
-    var photoViewModel: PhotoViewModel? {
-        didSet{
-            guard let url = photoViewModel?.thumbnailUrl else {
-                thumbinailImage.image = UIImage(named: "brokenImage")
-                return
-            }
-            let placehoderImage = UIImage(named: "placeholderImage")
-            thumbinailImage.loadImageFrom(url, placehoderImage)
+    var photoViewModel: PhotoViewModel?
+    var cancellable: AnyCancellable?
+    
+    func setup() {
+        setupView()
+        setupViewModel()
+    }
+    
+    private func setupView() {
+        let placeholderImage = UIImage(named: "placeholderImage")
+        thumbinailImage.image = placeholderImage
+    }
+    
+    private func setupViewModel() {
+        guard let photoViewModel = photoViewModel else {
+            return
         }
+        cancellable = photoViewModel.$imageData
+            .sink {[weak self] completion in
+                //TODO: kk
+                switch completion {
+                case .failure:
+                    DispatchQueue.main.async {
+                        let brokenImage = UIImage(named: "brokenImage")
+                        self?.thumbinailImage.image = brokenImage
+                    }
+                    break
+                case .finished:
+                    break
+                }
+                
+            } receiveValue: {[weak self] data in
+                DispatchQueue.main.async {
+                    guard let data = data, let image = UIImage(data: data) else{
+                        return
+                    }
+                    self?.thumbinailImage.image = image
+                }
+            }
+        photoViewModel.fetchPhotoData()
+
     }
 }

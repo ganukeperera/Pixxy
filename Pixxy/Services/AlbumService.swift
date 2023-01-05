@@ -16,13 +16,28 @@ enum NetworkError: Error{
     case unknown
 }
 
+extension NetworkError: LocalizedError {
+    var errorDescription: String? {
+//        switch self {
+//        case .invalidURL:
+//            return NSLocalizedString("Invalid URL", comment: "Invalid URL")
+//        case .responseError:
+//            return NSLocalizedString("Unexpected status code", comment: "Invalid response")
+//        case .unknown:
+//            return NSLocalizedString("Unknown error", comment: "Unknown error")
+//        }
+        ""
+    }
+}
+
 protocol DataFetchable {
-    func fetchData<T: Codable>(endpoint: Endpoint, type: T.Type) -> Future<T, Error>
+    func fetch<T: Codable>(endpoint: Endpoint, type: T.Type) -> Future<T, Error>
 }
 
 class AlbumService: DataFetchable {
-    private var cancellables = Set<AnyCancellable>()
-    func fetchData<T: Codable>(endpoint: Endpoint, type: T.Type) -> Future<T, Error> {
+    private var cancellable = Set<AnyCancellable>()
+    //TODO: hererError or Network error
+    func fetch<T: Codable>(endpoint: Endpoint, type: T.Type) -> Future<T, Error> {
         return Future<T, Error> { [weak self] promise in
             guard let self = self else {
                 return promise(.failure(NetworkError.unknown))
@@ -61,7 +76,7 @@ class AlbumService: DataFetchable {
                 }, receiveValue: {
                     promise(.success($0))
                 })
-                .store(in: &self.cancellables)
+                .store(in: &self.cancellable)
         }
     }
 }

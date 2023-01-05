@@ -80,7 +80,7 @@ extension AlbumListViewController: UITableViewDataSource {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == Constant.SegueIdentifier.showPhotoCollection
+        if segue.identifier == Constant.SegueIdentifier.toPhotoCollectionVC
             {
                 if let destinationVC = segue.destination as? PhotoCollectionViewController {
                     destinationVC.photoCollectionViewModel = photoCollectionViewModelForSelectedItem
@@ -95,7 +95,7 @@ extension AlbumListViewController: UITableViewDelegate {
             fatalError("Cannot load the album view model for the selected cell in AlbumListViewController")
         }
         photoCollectionViewModelForSelectedItem = PhotoCollectionViewModel(albumID: selectedViewModel.albumID)
-        performSegue(withIdentifier: Constant.SegueIdentifier.showPhotoCollection, sender: self)
+        performSegue(withIdentifier: Constant.SegueIdentifier.toPhotoCollectionVC, sender: self)
     }
 }
 

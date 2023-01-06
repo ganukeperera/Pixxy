@@ -20,10 +20,12 @@ class PhotoCollectionViewModel: ObservableObject {
     }
     private let photosService: DataFetchable
     private let albumID: Int
+    let albumTitle: String
     
-    init(photosService: DataFetchable = AlbumService(),albumID: Int) {
+    init(albumID: Int, albumTitle: String, photosService: DataFetchable = AlbumService()) {
         self.photosService = photosService
         self.albumID = albumID
+        self.albumTitle = albumTitle
     }
     
     var numberOfPhotos: Int {
@@ -69,8 +71,8 @@ class PhotoCollectionViewModel: ObservableObject {
 
 class PhotoViewModel: ObservableObject {
     let title: String
-    let thumbnailUrl: String
     let url: String
+    private let thumbnailUrl: String
     private let photoService: ResourceLoader
     private var cancellables = Set<AnyCancellable>()
     @Published private(set) var imageData: Data?

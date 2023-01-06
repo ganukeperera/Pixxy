@@ -27,6 +27,7 @@ class PhotoCollectionViewController: UICollectionViewController {
     private func setupView() {
         self.clearsSelectionOnViewWillAppear = false
         navigationItem.largeTitleDisplayMode = .never
+        title = photoCollectionViewModel?.albumTitle.capitalized ?? ""
     }
     
     private func setupViewModel() {
@@ -59,6 +60,17 @@ class PhotoCollectionViewController: UICollectionViewController {
         photoCollectionViewModel.fetchPhotos()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Constant.SegueIdentifier.toPhotoDetailVC
+            {
+                if let destinationVC = segue.destination as? PhotoDetailViewController {
+                    if let indexPath = selecteIndex, let cell = collectionView.cellForItem(at: indexPath) as? PhotoCollectionViewCell {
+                        destinationVC.placeHolderImage = cell.thumbinailImageView.image
+                    }
+                    destinationVC.photoDetailViewMode = photoDetailViewModelForSelectedCell
+                }
+            }
+    }
     
     //MARK: - Collection View DataSource Methods
     
@@ -83,20 +95,22 @@ class PhotoCollectionViewController: UICollectionViewController {
             return
         }
         selecteIndex = indexPath
-        photoDetailViewModelForSelectedCell = PhotoDetailViewModel(photoURL: selectedPhotoViewModel.url)
+        photoDetailViewModelForSelectedCell = PhotoDetailViewModel(photoURL: selectedPhotoViewModel.url, photoTitle: selectedPhotoViewModel.title)
         performSegue(withIdentifier: Constant.SegueIdentifier.toPhotoDetailVC, sender: self)
     }
+}
+
+extension PhotoCollectionViewController: UICollectionViewDelegateFlowLayout {
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == Constant.SegueIdentifier.toPhotoDetailVC
-            {
-                if let destinationVC = segue.destination as? PhotoDetailViewController {
-                    if let indexPath = selecteIndex, let cell = collectionView.cellForItem(at: indexPath) as? PhotoCollectionViewCell {
-                        destinationVC.placeHolderImage = cell.thumbinailImageView.image
-                    }
-                    destinationVC.photoDetailViewMode = photoDetailViewModelForSelectedCell
-                }
-            }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        let noOfCellsInRow = Constant.ViewConfig.numberofPhotosForRow
+        let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+        let totalSpace = flowLayout.sectionInset.left
+            + flowLayout.sectionInset.right
+            + (flowLayout.minimumInteritemSpacing * CGFloat(noOfCellsInRow - 1))
+        let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(noOfCellsInRow))
+        return CGSize(width: size, height: size)
     }
 }
 
@@ -152,6 +166,5 @@ class PhotoCollectionViewCell: UICollectionViewCell{
                 }
             }
         photoViewModel.fetchPhotoData()
-
     }
 }

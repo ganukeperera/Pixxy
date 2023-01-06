@@ -12,12 +12,14 @@ class PhotoDetailViewModel: ObservableObject {
     
     @Published private(set) var imageData: Data?
     private var cancellables = Set<AnyCancellable>()
-    let photoURL: String
-    let photoService: ResourceLoader
+    private let photoURL: String
+    private let photoService: ResourceLoader
+    let photoTitle: String
     
-    init(photoURL: String, photoService: ResourceLoader = PhotoService()){
+    init(photoURL: String, photoTitle: String, photoService: ResourceLoader = PhotoService()){
         self.photoURL = photoURL
         self.photoService = photoService
+        self.photoTitle = photoTitle
     }
     
     func fetchPhotoData() {

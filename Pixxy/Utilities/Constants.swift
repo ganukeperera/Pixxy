@@ -26,7 +26,12 @@ struct Constant {
         static let diskImageCacheSize = 500*1024*1024 //500MB
     }
     
+    struct ViewConfig {
+        static let numberofPhotosForRow = 3
+    }
+    
     struct Font {
+        static let mainFont = "Helvetica"
         static let mainFontBold = "Helvetica-Bold"
     }
 }

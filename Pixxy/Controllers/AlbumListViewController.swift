@@ -108,6 +108,10 @@ extension AlbumListViewController: UITableViewDataSource {
             fatalError("AlbumListTableViewCell is not found")
         }
         cell.albumViewModel = albumListViewModel.getAlbumViewModel(forSection: indexPath.section, forRow: indexPath.row)
+        let bgColorView = UIView()
+        bgColorView.backgroundColor = UIColor(named: "PixxyNavBarTint")
+        cell.selectedBackgroundView = bgColorView
+        cell.titleLabel.highlightedTextColor = .white
         return cell
     }
     
@@ -126,17 +130,18 @@ extension AlbumListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
     {
         let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.font = UIFont(name: Constant.Font.mainFontBold, size: 18.0)
+        header.textLabel?.font = UIFont(name: Constant.Font.mainFontBold, size: 20.0)
         header.textLabel?.textColor = UIColor(named: "PixxyTableCellHeaderTitle")
     }
 }
 
 extension AlbumListViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let selectedViewModel = albumListViewModel.getAlbumViewModel(forSection: indexPath.section, forRow: indexPath.row) else {
             fatalError("Cannot load the album view model for the selected cell in AlbumListViewController")
         }
-        photoCollectionViewModelForSelectedItem = PhotoCollectionViewModel(albumID: selectedViewModel.albumID)
+        photoCollectionViewModelForSelectedItem = PhotoCollectionViewModel(albumID: selectedViewModel.albumID, albumTitle: selectedViewModel.titleText)
         performSegue(withIdentifier: Constant.SegueIdentifier.toPhotoCollectionVC, sender: self)
     }
 }
@@ -146,7 +151,7 @@ class AlbumListTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     var albumViewModel: AlbumViewModel? {
         didSet{
-            titleLabel.text = albumViewModel?.titleText
+            titleLabel.text = albumViewModel?.titleText.capitalized
         }
     }
 }

@@ -83,7 +83,7 @@ extension ZoomTransitioningDelegate : UIViewControllerAnimatedTransitioning
         foregroundImageView.isHidden = true
         let foregroundViewBackgroundColor = foregroundViewController.view.backgroundColor
         foregroundViewController.view.backgroundColor = UIColor.clear
-        containerView.backgroundColor = UIColor.white
+        containerView.backgroundColor = UIColor(named: "PixxyVCBg")
         
         containerView.addSubview(backgroundViewController.view)
         containerView.addSubview(foregroundViewController.view)

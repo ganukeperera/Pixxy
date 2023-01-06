@@ -25,6 +25,7 @@ class PhotoDetailViewController: UIViewController {
         
         let placeholderImage = placeHolderImage ?? UIImage(named: "placeholderImage")
         photoImageView.image = placeholderImage
+        title = photoDetailViewMode?.photoTitle.capitalized ?? ""
     }
     
     private func setupViewModel() {

@@ -25,8 +25,24 @@ class AlbumListViewController: UIViewController {
     }
     
     private func setupView() {
+        title = NSLocalizedString("AlbumListVC.NavCTRL.Title", comment: "Album")
         tableView.estimatedRowHeight = 60
         tableView.rowHeight = UITableView.automaticDimension
+    }
+    
+    private func showAlertMessage() {
+        if let alertMessage = albumListViewModel.errorMessage {
+            let alert = UIAlertController(title: NSLocalizedString("AlbumListVC.Error.AlbumAPI", comment: "error"), message: alertMessage, preferredStyle: .alert)
+            if albumListViewModel.isRetryAllowed {
+                let alertAction = UIAlertAction(title: NSLocalizedString("Alert.Action.Retry", comment: "Retry"), style: .default) { [weak self] action in
+                    self?.albumListViewModel.retryAction()
+                }
+                alert.addAction(alertAction)
+            }
+            let alertAction = UIAlertAction(title: NSLocalizedString("Alert.Action.Ok", comment: "OK"), style: .cancel, handler: nil)
+            alert.addAction(alertAction)
+            present(alert, animated: true)
+        }
     }
     
     private func setupViewModel() {
@@ -58,25 +74,17 @@ class AlbumListViewController: UIViewController {
             }
             .store(in: &cancellables)
         
-        albumListViewModel.fetchAlbums()
-    }
-}
+        albumListViewModel.$showErroMessage
+            .receive(on: RunLoop.main)
+            .sink {[weak self] showMessage in
+                if showMessage {
+                    self?.showAlertMessage()
+                }
+            }
+            .store(in: &cancellables)
 
-extension AlbumListViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constant.CellReuseId.albumCellId, for: indexPath) as? AlbumListTableViewCell else {
-            fatalError("AlbumListTableViewCell is not found")
-        }
-        cell.albumViewModel = albumListViewModel.getAlbumViewModel(at: indexPath.row)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return albumListViewModel.numberOfAlbums
+        
+        albumListViewModel.fetchAlbums()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -89,9 +97,36 @@ extension AlbumListViewController: UITableViewDataSource {
     }
 }
 
+extension AlbumListViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return albumListViewModel.numberOfSections
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constant.CellReuseId.albumCellId, for: indexPath) as? AlbumListTableViewCell else {
+            fatalError("AlbumListTableViewCell is not found")
+        }
+        cell.albumViewModel = albumListViewModel.getAlbumViewModel(forSection: indexPath.section, forRow: indexPath.row)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        albumListViewModel.numberOfRowsInSection(section: section)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        50.0
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        albumListViewModel.sectionName(at: section)
+    }
+}
+
 extension AlbumListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let selectedViewModel = albumListViewModel.getAlbumViewModel(at: indexPath.row) else {
+        guard let selectedViewModel = albumListViewModel.getAlbumViewModel(forSection: indexPath.section, forRow: indexPath.row) else {
             fatalError("Cannot load the album view model for the selected cell in AlbumListViewController")
         }
         photoCollectionViewModelForSelectedItem = PhotoCollectionViewModel(albumID: selectedViewModel.albumID)
@@ -101,14 +136,11 @@ extension AlbumListViewController: UITableViewDelegate {
 
 class AlbumListTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     var albumViewModel: AlbumViewModel? {
         didSet{
-            nameLabel.text = albumViewModel?.nameText
             titleLabel.text = albumViewModel?.titleText
         }
     }
-    
 }
 

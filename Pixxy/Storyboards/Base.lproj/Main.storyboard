@@ -22,31 +22,23 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="albumCellIdentifier" textLabel="s2P-hP-Y21" detailTextLabel="k0s-Ci-zge" style="IBUITableViewCellStyleSubtitle" id="bU8-5V-Clu" customClass="AlbumListTableViewCell" customModule="Pixxy" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="albumCellIdentifier" textLabel="s2P-hP-Y21" style="IBUITableViewCellStyleDefault" id="bU8-5V-Clu" customClass="AlbumListTableViewCell" customModule="Pixxy" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bU8-5V-Clu" id="wyR-Pk-HdT">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s2P-hP-Y21">
-                                                    <rect key="frame" x="20" y="6" width="25" height="14.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s2P-hP-Y21">
+                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k0s-Ci-zge">
-                                                    <rect key="frame" x="20" y="22.5" width="40.5" height="13.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="nameLabel" destination="k0s-Ci-zge" id="gTU-Cy-IJ4"/>
                                             <outlet property="titleLabel" destination="s2P-hP-Y21" id="njp-uG-KvD"/>
                                         </connections>
                                     </tableViewCell>
@@ -97,7 +89,7 @@
                             <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <activityIndicatorView key="backgroundView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" id="UUW-ep-zaj">
-                            <rect key="frame" x="0.0" y="-88" width="414" height="896"/>
+                            <rect key="frame" x="0.0" y="-140" width="414" height="896"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </activityIndicatorView>
                         <cells>
@@ -120,7 +112,7 @@
                                     </constraints>
                                 </collectionViewCellContentView>
                                 <connections>
-                                    <outlet property="thumbinailImage" destination="j2a-Tn-c21" id="jQC-Wg-QTu"/>
+                                    <outlet property="thumbinailImageView" destination="j2a-Tn-c21" id="jQC-Wg-QTu"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -148,7 +140,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WxQ-8u-Hb2">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="140" width="414" height="722"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="q3c-7p-UKZ"/>
@@ -162,7 +154,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="712-Ai-k7G"/>
                     <connections>
-                        <outlet property="photoImage" destination="WxQ-8u-Hb2" id="ofJ-Uj-dKX"/>
+                        <outlet property="photoImageView" destination="WxQ-8u-Hb2" id="ofJ-Uj-dKX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EwW-ja-3GX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -174,16 +166,18 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lF4-53-8wK" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2rz-ZI-so0">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="2rz-ZI-so0">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
+                        <outlet property="delegate" destination="AIM-BJ-5Hy" id="dtj-U1-fja"/>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="UhT-kd-UUG"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Po-sv-W0P" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <customObject id="AIM-BJ-5Hy" customClass="ZoomTransitioningDelegate" customModule="Pixxy" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="69.565217391304358" y="77.678571428571431"/>
         </scene>

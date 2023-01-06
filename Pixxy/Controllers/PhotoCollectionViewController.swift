@@ -16,7 +16,7 @@ class PhotoCollectionViewController: UICollectionViewController {
     private var cancellables = Set<AnyCancellable>()
     private var photoDetailViewModelForSelectedCell: PhotoDetailViewModel?
     var photoCollectionViewModel: PhotoCollectionViewModel?
-
+    private var selecteIndex: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,7 @@ class PhotoCollectionViewController: UICollectionViewController {
     
     private func setupView() {
         self.clearsSelectionOnViewWillAppear = false
-//        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        navigationItem.largeTitleDisplayMode = .never
     }
     
     private func setupViewModel() {
@@ -82,6 +82,7 @@ class PhotoCollectionViewController: UICollectionViewController {
             //TODO: what to do
             return
         }
+        selecteIndex = indexPath
         photoDetailViewModelForSelectedCell = PhotoDetailViewModel(photoURL: selectedPhotoViewModel.url)
         performSegue(withIdentifier: Constant.SegueIdentifier.toPhotoDetailVC, sender: self)
     }
@@ -90,15 +91,27 @@ class PhotoCollectionViewController: UICollectionViewController {
         if segue.identifier == Constant.SegueIdentifier.toPhotoDetailVC
             {
                 if let destinationVC = segue.destination as? PhotoDetailViewController {
+                    if let indexPath = selecteIndex, let cell = collectionView.cellForItem(at: indexPath) as? PhotoCollectionViewCell {
+                        destinationVC.placeHolderImage = cell.thumbinailImageView.image
+                    }
                     destinationVC.photoDetailViewMode = photoDetailViewModelForSelectedCell
                 }
             }
     }
 }
 
+extension PhotoCollectionViewController: ZoomingViewController {
+    func zoomingImageView(for transition: ZoomTransitioningDelegate) -> UIImageView? {
+        if let indexPath = selecteIndex, let cell = collectionView.cellForItem(at: indexPath) as? PhotoCollectionViewCell {
+            return cell.thumbinailImageView
+        }
+        return nil
+    }
+}
+
 class PhotoCollectionViewCell: UICollectionViewCell{
     
-    @IBOutlet weak var thumbinailImage: UIImageView!
+    @IBOutlet weak var thumbinailImageView: UIImageView!
     var photoViewModel: PhotoViewModel?
     var cancellable: AnyCancellable?
     
@@ -109,7 +122,7 @@ class PhotoCollectionViewCell: UICollectionViewCell{
     
     private func setupView() {
         let placeholderImage = UIImage(named: "placeholderImage")
-        thumbinailImage.image = placeholderImage
+        thumbinailImageView.image = placeholderImage
     }
     
     private func setupViewModel() {
@@ -123,7 +136,7 @@ class PhotoCollectionViewCell: UICollectionViewCell{
                 case .failure:
                     DispatchQueue.main.async {
                         let brokenImage = UIImage(named: "brokenImage")
-                        self?.thumbinailImage.image = brokenImage
+                        self?.thumbinailImageView.image = brokenImage
                     }
                     break
                 case .finished:
@@ -135,7 +148,7 @@ class PhotoCollectionViewCell: UICollectionViewCell{
                     guard let data = data, let image = UIImage(data: data) else{
                         return
                     }
-                    self?.thumbinailImage.image = image
+                    self?.thumbinailImageView.image = image
                 }
             }
         photoViewModel.fetchPhotoData()

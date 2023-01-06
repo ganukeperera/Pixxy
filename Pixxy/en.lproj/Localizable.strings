@@ -5,3 +5,12 @@
   Created by Ganuke Perera on 1/2/23.
   
 */
+"AlbumListVC.NavCTRL.Title" = "Albums";
+"AlbumListVC.Error.AlbumAPI" = "Error occured in album service. Cannot proceed";
+
+//Alert view controller related messages
+"Alert.Title.Error" = "Alert";
+"Alert.Title.Info" = "Info";
+"Alert.Action.Ok" = "OK";
+"Alert.Action.Cancel" = "Cancel";
+"Alert.Action.Retry" = "Retry";

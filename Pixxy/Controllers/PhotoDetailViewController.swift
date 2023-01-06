@@ -10,8 +10,9 @@ import Combine
 
 class PhotoDetailViewController: UIViewController {
     
-    @IBOutlet weak var photoImage: UIImageView!
+    @IBOutlet weak var photoImageView: UIImageView!
     var photoDetailViewMode: PhotoDetailViewModel?
+    var placeHolderImage: UIImage?
     var cancellable: AnyCancellable?
     
     override func viewDidLoad() {
@@ -21,8 +22,9 @@ class PhotoDetailViewController: UIViewController {
     }
 
     private func setupView() {
-        let placeholderImage = UIImage(named: "placeholderImage")
-        photoImage.image = placeholderImage
+        
+        let placeholderImage = placeHolderImage ?? UIImage(named: "placeholderImage")
+        photoImageView.image = placeholderImage
     }
     
     private func setupViewModel() {
@@ -36,7 +38,7 @@ class PhotoDetailViewController: UIViewController {
                 case .failure:
                     DispatchQueue.main.async {
                         let brokenImage = UIImage(named: "brokenImage")
-                        self?.photoImage.image = brokenImage
+                        self?.photoImageView.image = brokenImage
                     }
                     break
                 case .finished:
@@ -48,9 +50,15 @@ class PhotoDetailViewController: UIViewController {
                     guard let data = data, let image = UIImage(data: data) else{
                         return
                     }
-                    self?.photoImage.image = image
+                    self?.photoImageView.image = image
                 }
             }
         photoDetailViewMode.fetchPhotoData()
+    }
+}
+
+extension PhotoDetailViewController: ZoomingViewController {
+    func zoomingImageView(for transition: ZoomTransitioningDelegate) -> UIImageView? {
+        return photoImageView
     }
 }

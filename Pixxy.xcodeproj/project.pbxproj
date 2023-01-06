@@ -18,6 +18,7 @@
 		C33F49612966452B008A8619 /* PhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33F49602966452B008A8619 /* PhotoService.swift */; };
 		C33F496329668B2B008A8619 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33F496229668B2B008A8619 /* PhotoDetailViewController.swift */; };
 		C33F496529668BBD008A8619 /* PhotoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33F496429668BBD008A8619 /* PhotoDetailViewModel.swift */; };
+		C33F49692966E064008A8619 /* ZoomTransition+UINavigationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33F49682966E063008A8619 /* ZoomTransition+UINavigationControllerDelegate.swift */; };
 		C34ED8E329616B5F00E7AE77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34ED8E229616B5F00E7AE77 /* AppDelegate.swift */; };
 		C34ED8E529616B5F00E7AE77 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34ED8E429616B5F00E7AE77 /* SceneDelegate.swift */; };
 		C34ED8E729616B5F00E7AE77 /* AlbumListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34ED8E629616B5F00E7AE77 /* AlbumListViewController.swift */; };
@@ -62,6 +63,7 @@
 		C33F49602966452B008A8619 /* PhotoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoService.swift; sourceTree = "<group>"; };
 		C33F496229668B2B008A8619 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		C33F496429668BBD008A8619 /* PhotoDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewModel.swift; sourceTree = "<group>"; };
+		C33F49682966E063008A8619 /* ZoomTransition+UINavigationControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ZoomTransition+UINavigationControllerDelegate.swift"; sourceTree = "<group>"; };
 		C34ED8DF29616B5F00E7AE77 /* Pixxy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixxy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C34ED8E229616B5F00E7AE77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C34ED8E429616B5F00E7AE77 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				C390140F2964F5C900CE28DF /* URLCache+AlbumImageCache.swift */,
+				C33F49682966E063008A8619 /* ZoomTransition+UINavigationControllerDelegate.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 			files = (
 				C33F496529668BBD008A8619 /* PhotoDetailViewModel.swift in Sources */,
 				C39014102964F5C900CE28DF /* URLCache+AlbumImageCache.swift in Sources */,
+				C33F49692966E064008A8619 /* ZoomTransition+UINavigationControllerDelegate.swift in Sources */,
 				C34ED8E729616B5F00E7AE77 /* AlbumListViewController.swift in Sources */,
 				C34ED8E329616B5F00E7AE77 /* AppDelegate.swift in Sources */,
 				C3249384296254550098FCE1 /* AlbumDTO.swift in Sources */,

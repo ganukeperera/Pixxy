@@ -25,4 +25,8 @@ struct Constant {
     struct AppConfig {
         static let diskImageCacheSize = 500*1024*1024 //500MB
     }
+    
+    struct Font {
+        static let mainFontBold = "Helvetica-Bold"
+    }
 }

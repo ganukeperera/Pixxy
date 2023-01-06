@@ -122,6 +122,13 @@ extension AlbumListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         albumListViewModel.sectionName(at: section)
     }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
+    {
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.font = UIFont(name: Constant.Font.mainFontBold, size: 18.0)
+        header.textLabel?.textColor = UIColor(named: "PixxyTableCellHeaderTitle")
+    }
 }
 
 extension AlbumListViewController: UITableViewDelegate {

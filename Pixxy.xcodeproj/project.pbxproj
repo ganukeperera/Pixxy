@@ -51,8 +51,8 @@
 		C3FAD2A02969AA3500D2CCC7 /* PixxyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FAD29D2969AA3500D2CCC7 /* PixxyUITests.swift */; };
 		C3FAD2A12969AA3500D2CCC7 /* PixxyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FAD29E2969AA3500D2CCC7 /* PixxyUITestsLaunchTests.swift */; };
 		C3FAD2A22969AA3500D2CCC7 /* PixxyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FAD29E2969AA3500D2CCC7 /* PixxyUITestsLaunchTests.swift */; };
-		C3FAD2A42969AA8D00D2CCC7 /* MockAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FAD2A32969AA8D00D2CCC7 /* MockAlbumService.swift */; };
-		C3FAD2A52969AA8D00D2CCC7 /* MockAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FAD2A32969AA8D00D2CCC7 /* MockAlbumService.swift */; };
+		C3FAD2A82969AB8C00D2CCC7 /* MockAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FAD2A72969AB8B00D2CCC7 /* MockAlbumService.swift */; };
+		C3FAD2A92969AB8C00D2CCC7 /* MockAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FAD2A72969AB8B00D2CCC7 /* MockAlbumService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,7 +104,7 @@
 		C3F3A3AC29687A910077974E /* Photos.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Photos.json; sourceTree = "<group>"; };
 		C3FAD29D2969AA3500D2CCC7 /* PixxyUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixxyUITests.swift; sourceTree = "<group>"; };
 		C3FAD29E2969AA3500D2CCC7 /* PixxyUITestsLaunchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixxyUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		C3FAD2A32969AA8D00D2CCC7 /* MockAlbumService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAlbumService.swift; sourceTree = "<group>"; };
+		C3FAD2A72969AB8B00D2CCC7 /* MockAlbumService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAlbumService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,8 +174,8 @@
 		C34ED8F829616B6200E7AE77 /* PixxyTests */ = {
 			isa = PBXGroup;
 			children = (
+				C3FAD2A62969AB8B00D2CCC7 /* Mocks */,
 				C3F3A3A529687A230077974E /* MockResponses */,
-				C3F3A39A296847880077974E /* Mocks */,
 				C34ED8F929616B6200E7AE77 /* AlbumListViewModelTests.swift */,
 			);
 			path = PixxyTests;
@@ -255,14 +255,6 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		C3F3A39A296847880077974E /* Mocks */ = {
-			isa = PBXGroup;
-			children = (
-				C3FAD2A32969AA8D00D2CCC7 /* MockAlbumService.swift */,
-			);
-			path = Mocks;
-			sourceTree = "<group>";
-		};
 		C3F3A3A529687A230077974E /* MockResponses */ = {
 			isa = PBXGroup;
 			children = (
@@ -281,6 +273,14 @@
 			);
 			path = PixxyUITests;
 			sourceTree = SOURCE_ROOT;
+		};
+		C3FAD2A62969AB8B00D2CCC7 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				C3FAD2A72969AB8B00D2CCC7 /* MockAlbumService.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -455,7 +455,7 @@
 				C3F3A3A1296848050077974E /* AlbumEndpoint.swift in Sources */,
 				C3FAD29329688C5500D2CCC7 /* AlbumListViewModel.swift in Sources */,
 				C3FAD2952968F64600D2CCC7 /* User.swift in Sources */,
-				C3FAD2A42969AA8D00D2CCC7 /* MockAlbumService.swift in Sources */,
+				C3FAD2A82969AB8C00D2CCC7 /* MockAlbumService.swift in Sources */,
 				C3FAD2942968F64300D2CCC7 /* Album.swift in Sources */,
 				C3FAD2A12969AA3500D2CCC7 /* PixxyUITestsLaunchTests.swift in Sources */,
 			);
@@ -467,7 +467,7 @@
 			files = (
 				C3F3A3A2296848060077974E /* AlbumEndpoint.swift in Sources */,
 				C3FAD2A22969AA3500D2CCC7 /* PixxyUITestsLaunchTests.swift in Sources */,
-				C3FAD2A52969AA8D00D2CCC7 /* MockAlbumService.swift in Sources */,
+				C3FAD2A92969AB8C00D2CCC7 /* MockAlbumService.swift in Sources */,
 				C3F3A3952968448B0077974E /* AlbumService.swift in Sources */,
 				C3FAD2A02969AA3500D2CCC7 /* PixxyUITests.swift in Sources */,
 			);

@@ -6,11 +6,20 @@
   
 */
 "AlbumListVC.NavCTRL.Title" = "Albums";
-"AlbumListVC.Error.AlbumAPI" = "Error occured in album service. Cannot proceed";
+"AlbumListVC.Error.AlbumAPI"= "Error occured in Album API. Cannot proceed";
+"PhotoCVC.Error.PhotoAPI"   = "Error occured in Photo API. Cannot proceed";
+"PhotoCVC.Error.ItemNotFound"="Selected Item not found";
 
 //Alert view controller related messages
-"Alert.Title.Error" = "Alert";
-"Alert.Title.Info" = "Info";
-"Alert.Action.Ok" = "OK";
-"Alert.Action.Cancel" = "Cancel";
-"Alert.Action.Retry" = "Retry";
+"Alert.Title.Error"         = "Alert";
+"Alert.Title.Info"          = "Info";
+"Alert.Action.Ok"           = "OK";
+"Alert.Action.Cancel"       = "Cancel";
+"Alert.Action.Retry"        = "Retry";
+
+//Netowrk Errors
+"Network.InvalidRequest"    = "Cannot proceed with the request";
+"Network.InvalidResponse"   = "Receive invalid response from server";
+"Network.DecodingError"     = "An error occurred while processing albums";
+"Network.UnknownError"      = "An unknown occurred while processing album";
+

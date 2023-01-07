@@ -30,21 +30,6 @@ class AlbumListViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
     }
     
-    private func showAlertMessage() {
-        if let alertMessage = albumListViewModel.errorMessage {
-            let alert = UIAlertController(title: NSLocalizedString("AlbumListVC.Error.AlbumAPI", comment: "error"), message: alertMessage, preferredStyle: .alert)
-            if albumListViewModel.isRetryAllowed {
-                let alertAction = UIAlertAction(title: NSLocalizedString("Alert.Action.Retry", comment: "Retry"), style: .default) { [weak self] action in
-                    self?.albumListViewModel.retryAction()
-                }
-                alert.addAction(alertAction)
-            }
-            let alertAction = UIAlertAction(title: NSLocalizedString("Alert.Action.Ok", comment: "OK"), style: .cancel, handler: nil)
-            alert.addAction(alertAction)
-            present(alert, animated: true)
-        }
-    }
-    
     private func setupViewModel() {
         
         albumListViewModel.$isAlbumsLoading
@@ -94,6 +79,21 @@ class AlbumListViewController: UIViewController {
                     destinationVC.photoCollectionViewModel = photoCollectionViewModelForSelectedItem
                 }
             }
+    }
+    
+    private func showAlertMessage() {
+        if let alertMessage = albumListViewModel.errorMessage {
+            let alert = UIAlertController(title: NSLocalizedString("Alert.Title.Error", comment: "error"), message: alertMessage, preferredStyle: .alert)
+            if albumListViewModel.isRetryAllowed {
+                let alertAction = UIAlertAction(title: NSLocalizedString("Alert.Action.Retry", comment: "Retry"), style: .default) { [weak self] action in
+                    self?.albumListViewModel.retryAction()
+                }
+                alert.addAction(alertAction)
+            }
+            let alertAction = UIAlertAction(title: NSLocalizedString("Alert.Action.Ok", comment: "OK"), style: .cancel, handler: nil)
+            alert.addAction(alertAction)
+            present(alert, animated: true)
+        }
     }
 }
 

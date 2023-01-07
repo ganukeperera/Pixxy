@@ -1,5 +1,5 @@
 //
-//  AlbumDTO.swift
+//  User.swift
 //  Pixxy
 //
 //  Created by Ganuke Perera on 1/2/23.
@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct AlbumDTO: Codable {
-    let userId: Int
+struct User: Codable {
     let id: Int
-    let title: String
+    let name: String
 }

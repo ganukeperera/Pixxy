@@ -7,6 +7,7 @@
 
 import Foundation
 
+//All album service endpoints will be configured by conforming to this protocol
 protocol Endpoint {
     
     var scheme: String {get}
@@ -16,6 +17,20 @@ protocol Endpoint {
     var method: String {get}
 }
 
+//This extension provide a default implementation to get a URL object by processing all properties of Endpoint
+extension Endpoint {
+    
+    func url() -> URL? {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = scheme
+        urlComponents.host = baseURL
+        urlComponents.path = path
+        urlComponents.queryItems = components
+        return urlComponents.url
+    }
+}
+
+//Configure all endpoints by conforming to protoco
 enum AlbumEndpoint: Endpoint {
     
     case fetchAllAlbums
@@ -59,5 +74,5 @@ enum AlbumEndpoint: Endpoint {
             return "GET"
         }
     }
-    
 }
+

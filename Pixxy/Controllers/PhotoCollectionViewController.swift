@@ -57,7 +57,34 @@ class PhotoCollectionViewController: UICollectionViewController {
                 }
             }.store(in: &cancellables)
         
+        photoCollectionViewModel.$showErroMessage
+            .receive(on: RunLoop.main)
+            .sink {[weak self] showMessage in
+                if showMessage {
+                    self?.showAlertMessage()
+                }
+            }
+            .store(in: &cancellables)
+        
         photoCollectionViewModel.fetchPhotos()
+    }
+    
+    private func showAlertMessage() {
+        guard let photoCollectionViewModel = photoCollectionViewModel else {
+            return
+        }
+        if let alertMessage = photoCollectionViewModel.errorMessage {
+            let alert = UIAlertController(title: NSLocalizedString("Alert.Title.Error", comment: "error"), message: alertMessage, preferredStyle: .alert)
+            if photoCollectionViewModel.isRetryAllowed {
+                let alertAction = UIAlertAction(title: NSLocalizedString("Alert.Action.Retry", comment: "Retry"), style: .default) { action in
+                    photoCollectionViewModel.retryAction()
+                }
+                alert.addAction(alertAction)
+            }
+            let alertAction = UIAlertAction(title: NSLocalizedString("Alert.Action.Ok", comment: "OK"), style: .cancel, handler: nil)
+            alert.addAction(alertAction)
+            present(alert, animated: true)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -91,7 +118,7 @@ class PhotoCollectionViewController: UICollectionViewController {
     //MARK: - Collection View Delegate method
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let selectedPhotoViewModel = photoCollectionViewModel?.getPhotoViewModel(at: indexPath.row) else {
-            //TODO: what to do
+            assertionFailure("Selected item not found in PhotoCollectinVC")
             return
         }
         selecteIndex = indexPath
@@ -127,7 +154,7 @@ class PhotoCollectionViewCell: UICollectionViewCell{
     
     @IBOutlet weak var thumbinailImageView: UIImageView!
     var photoViewModel: PhotoViewModel?
-    var cancellable: AnyCancellable?
+    var cancellables = Set<AnyCancellable>()
     
     func setup() {
         setupView()
@@ -143,28 +170,31 @@ class PhotoCollectionViewCell: UICollectionViewCell{
         guard let photoViewModel = photoViewModel else {
             return
         }
-        cancellable = photoViewModel.$imageData
-            .sink {[weak self] completion in
-                //TODO: kk
-                switch completion {
-                case .failure:
-                    DispatchQueue.main.async {
-                        let brokenImage = UIImage(named: "brokenImage")
-                        self?.thumbinailImageView.image = brokenImage
-                    }
-                    break
-                case .finished:
-                    break
-                }
-                
-            } receiveValue: {[weak self] data in
+        photoViewModel.$imageData
+            .sink { [weak self] data in
                 DispatchQueue.main.async {
                     guard let data = data, let image = UIImage(data: data) else{
+                        if let _ = data {
+                            //Received data cannot be converted to a image. So showing a broken image
+                            let placeholderImage = UIImage(named: "brokenImage")
+                            self?.thumbinailImageView.image = placeholderImage
+                        }
                         return
                     }
                     self?.thumbinailImageView.image = image
                 }
-            }
+            }.store(in: &cancellables)
+        
+        photoViewModel.$imageDownloadFailed
+            .sink { [weak self] downloadFailed in
+                if downloadFailed {
+                    DispatchQueue.main.async {
+                        let placeholderImage = UIImage(named: "brokenImage")
+                        self?.thumbinailImageView.image = placeholderImage
+                    }
+                }
+            }.store(in: &cancellables)
+        
         photoViewModel.fetchPhotoData()
     }
 }

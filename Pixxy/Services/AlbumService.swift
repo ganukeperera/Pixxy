@@ -9,24 +9,24 @@ import Foundation
 import Combine
 
 enum NetworkError: Error{
-    case badRequest
+    case unsupportedRequest
     case invalidResponse
     case decodingError
-    case connectionError
     case unknown
 }
 
 extension NetworkError: LocalizedError {
     var errorDescription: String? {
-//        switch self {
-//        case .invalidURL:
-//            return NSLocalizedString("Invalid URL", comment: "Invalid URL")
-//        case .responseError:
-//            return NSLocalizedString("Unexpected status code", comment: "Invalid response")
-//        case .unknown:
-//            return NSLocalizedString("Unknown error", comment: "Unknown error")
-//        }
-        ""
+        switch self {
+        case .unsupportedRequest:
+            return NSLocalizedString("Network.InvalidRequest", comment: "Request Not Supporte")
+        case .invalidResponse:
+            return NSLocalizedString("Network.InvalidResponse", comment: "Invalid response")
+        case .decodingError:
+            return NSLocalizedString("Network.DecodingError", comment: "JSON response processing error")
+        case .unknown:
+            return NSLocalizedString("Network.UnknownError", comment: "Unknown error")
+        }
     }
 }
 
@@ -35,24 +35,21 @@ protocol DataFetchable {
 }
 
 class AlbumService: DataFetchable {
+    
     private var cancellable = Set<AnyCancellable>()
-    //TODO: hererError or Network error
+    
     func fetch<T: Codable>(endpoint: Endpoint, type: T.Type) -> Future<T, Error> {
+        
         return Future<T, Error> { [weak self] promise in
+            
             guard let self = self else {
                 return promise(.failure(NetworkError.unknown))
             }
-            var components = URLComponents()
-            components.scheme = endpoint.scheme
-            components.host = endpoint.baseURL
-            components.path = endpoint.path
-            components.queryItems = endpoint.components
             
-            guard let url = components.url else {
-                return
+            guard let url = endpoint.url() else {
+                return promise(.failure(NetworkError.unsupportedRequest))
             }
             
-            print("URL is \(url.absoluteString)")
             URLSession.shared.dataTaskPublisher(for: url)
                 .tryMap { (data, response) -> Data in
                     guard let httpResponse = response as? HTTPURLResponse, 200...299 ~= httpResponse.statusCode else {
@@ -67,10 +64,8 @@ class AlbumService: DataFetchable {
                         switch error {
                         case let decodingError as DecodingError:
                             promise(.failure(decodingError))
-                        case let apiError as NetworkError:
-                            promise(.failure(apiError))
                         default:
-                            promise(.failure(NetworkError.unknown))
+                            promise(.failure(error))
                         }
                     }
                 }, receiveValue: {

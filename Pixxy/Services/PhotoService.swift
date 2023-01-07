@@ -20,7 +20,7 @@ class PhotoService: ResourceLoader {
     }
     
     func fetchData(from urlString: String) -> Future<Data,Error> {
-        //
+        
         return Future<Data, Error> { [weak self] promise in
             guard let self = self else {
                 return promise(.failure(NetworkError.unknown))
@@ -30,7 +30,6 @@ class PhotoService: ResourceLoader {
                 return
             }
             let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: Constant.Network.requestTimeOut)
-            //TODO: Error handeling
             self.cancellable = URLSession.shared.dataTaskPublisher(for: request)
                 .tryMap { (data, response) -> Data in
                     guard let httpResponse = response as? HTTPURLResponse, 200...299 ~= httpResponse.statusCode else {
@@ -40,14 +39,7 @@ class PhotoService: ResourceLoader {
                 }
                 .sink(receiveCompletion: { (completion) in
                     if case let .failure(error) = completion {
-                        switch error {
-                        case let decodingError as DecodingError:
-                            promise(.failure(decodingError))
-                        case let apiError as NetworkError:
-                            promise(.failure(apiError))
-                        default:
-                            promise(.failure(NetworkError.unknown))
-                        }
+                        promise(.failure(error))
                     }
                 }, receiveValue: {
                     promise(.success($0))

@@ -10,6 +10,7 @@ import Combine
 
 class PhotoCollectionViewModel: ObservableObject {
     
+    //MARK: - Properties
     @Published private(set) var isPhotosLoading = false
     @Published private(set) var reloadPhotoCollection = false
     @Published private(set) var showErroMessage = false
@@ -30,21 +31,16 @@ class PhotoCollectionViewModel: ObservableObject {
         }
     }
     
+    //MARK: - Lifetime
     init(albumID: Int, albumTitle: String, photosService: DataFetchable = AlbumService()) {
         self.photosService = photosService
         self.albumID = albumID
         self.albumTitle = albumTitle
     }
     
+    //MARK: - APIs provided for the View
     var numberOfPhotos: Int {
         photoViewModels.count
-    }
-    
-    func getPhotoViewModel(at index: Int) -> PhotoViewModel? {
-        guard index < photoViewModels.count else {
-            return nil
-        }
-        return photoViewModels[index]
     }
     
     var isRetryAllowed: Bool{
@@ -55,6 +51,13 @@ class PhotoCollectionViewModel: ObservableObject {
         default:
             return false
         }
+    }
+    
+    func getPhotoViewModel(at index: Int) -> PhotoViewModel? {
+        guard index < photoViewModels.count else {
+            return nil
+        }
+        return photoViewModels[index]
     }
     
     func retryAction() {
@@ -87,7 +90,8 @@ class PhotoCollectionViewModel: ObservableObject {
         }.store(in: &cancellables)
     }
     
-    func processPhotos(photoList: [Photo]) {
+    //MARK: - Supportive Methods
+    private func processPhotos(photoList: [Photo]) {
         DispatchQueue.global(qos: .userInitiated).async {
             var viewModelList = [PhotoViewModel]()
             for photo in photoList {
@@ -99,7 +103,10 @@ class PhotoCollectionViewModel: ObservableObject {
     }
 }
 
+//MARK: - PhotoViewModel
 class PhotoViewModel: ObservableObject {
+    
+    //MARK: - Properties
     let title: String
     let url: String
     private let thumbnailUrl: String
@@ -108,6 +115,7 @@ class PhotoViewModel: ObservableObject {
     @Published private(set) var imageData: Data?
     @Published private(set) var imageDownloadFailed = false
     
+    //MARK: - Lifetime
     init(title: String, thumbnailUrl: String, url: String, photoService: ResourceLoader = PhotoService()) {
         self.title = title
         self.thumbnailUrl = thumbnailUrl
@@ -115,6 +123,7 @@ class PhotoViewModel: ObservableObject {
         self.photoService = photoService
     }
     
+    //MARK: - APIs provided for the CollectionViewCell
     func fetchPhotoData() {
         photoService.fetchData(from: thumbnailUrl)
             .sink { [weak self] completion in
@@ -126,6 +135,5 @@ class PhotoViewModel: ObservableObject {
                 self?.imageData = data
             }
             .store(in: &cancellables)
-
     }
 }

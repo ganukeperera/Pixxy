@@ -10,24 +10,28 @@ import Combine
 
 class AlbumListViewController: UIViewController {
 
+    //MARK: - Properties
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     private var cancellables = Set<AnyCancellable>()
     var albumListViewModel: AlbumListViewModel!
     private var photoCollectionViewModelForSelectedItem: PhotoCollectionViewModel?
     
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setupViewModel()
     }
     
+    //MARK: - Layout Related
     private func setupView() {
         title = NSLocalizedString("AlbumListVC.NavCTRL.Title", comment: "Album")
         tableView.estimatedRowHeight = 60
         tableView.rowHeight = UITableView.automaticDimension
     }
     
+    //MARK: - ViewModel Bindings
     private func setupViewModel() {
         
         albumListViewModel.$isAlbumsLoading
@@ -70,6 +74,7 @@ class AlbumListViewController: UIViewController {
         albumListViewModel.fetchAlbums()
     }
     
+    //MARK: - UIStoryboardSegue Handling
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constant.SegueIdentifier.toPhotoCollectionVC
             {
@@ -79,6 +84,7 @@ class AlbumListViewController: UIViewController {
             }
     }
     
+    //MARK: - Utility Methods
     private func showAlertMessage() {
         if let alertMessage = albumListViewModel.errorMessage {
             let alert = UIAlertController(title: NSLocalizedString("Alert.Title.Error", comment: "error"), message: alertMessage, preferredStyle: .alert)
@@ -96,6 +102,7 @@ class AlbumListViewController: UIViewController {
     }
 }
 
+//MARK: - UITableViewDataSource
 extension AlbumListViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -130,11 +137,12 @@ extension AlbumListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
     {
         let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.font = UIFont(name: Constant.Font.mainFontBold, size: 20.0)
+        header.textLabel?.font = UIFont(name: Constant.Font.mainFontBold, size: 18.0)
         header.textLabel?.textColor = UIColor(named: "PixxyTableCellHeaderTitle")
     }
 }
 
+//MARK: - UITableViewDelegate
 extension AlbumListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -146,6 +154,7 @@ extension AlbumListViewController: UITableViewDelegate {
     }
 }
 
+//MARK: - Custom Album Table View Cell
 class AlbumListTableViewCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!

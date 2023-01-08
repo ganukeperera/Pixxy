@@ -12,29 +12,33 @@ private let reuseIdentifier = Constant.CellReuseId.photoCollectionCellID
 
 class PhotoCollectionViewController: UICollectionViewController {
     
+    //MARK: - Properties
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     private var cancellables = Set<AnyCancellable>()
     private var photoDetailViewModelForSelectedCell: PhotoDetailViewModel?
     var photoCollectionViewModel: PhotoCollectionViewModel?
     private var selecteIndex: IndexPath?
     
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setupViewModel()
     }
     
+    //MARK: - Layout Related
     private func setupView() {
         self.clearsSelectionOnViewWillAppear = false
         navigationItem.largeTitleDisplayMode = .never
         title = photoCollectionViewModel?.albumTitle.capitalized ?? ""
     }
     
+    //MARK: - ViewModel Bindings
     private func setupViewModel() {
+        
         guard let photoCollectionViewModel = photoCollectionViewModel else {
             fatalError("photo collection view model is not set in PhotoCollectionViewController")
         }
-
         photoCollectionViewModel.$isPhotosLoading
             .receive(on: RunLoop.main)
             .sink { [weak self] isLoading in
@@ -69,6 +73,7 @@ class PhotoCollectionViewController: UICollectionViewController {
         photoCollectionViewModel.fetchPhotos()
     }
     
+    //MARK: - Utility Methods
     private func showAlertMessage() {
         guard let photoCollectionViewModel = photoCollectionViewModel else {
             return
@@ -87,6 +92,7 @@ class PhotoCollectionViewController: UICollectionViewController {
         }
     }
     
+    //MARK: - UIStoryboardSegue Handling
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constant.SegueIdentifier.toPhotoDetailVC
         {
@@ -99,10 +105,8 @@ class PhotoCollectionViewController: UICollectionViewController {
         }
     }
     
-    //MARK: - Collection View DataSource Methods
-    
+    //MARK: - UICollectionViewDataSource Methods
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
         return photoCollectionViewModel?.numberOfPhotos ?? 0
     }
     
@@ -116,7 +120,7 @@ class PhotoCollectionViewController: UICollectionViewController {
         return cell
     }
     
-    //MARK: - Collection View Delegate method
+    //MARK: - UIViewDelegate methods
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let selectedPhotoViewModel = photoCollectionViewModel?.getPhotoViewModel(at: indexPath.row) else {
             assertionFailure("Selected item not found in PhotoCollectinVC")
@@ -128,6 +132,9 @@ class PhotoCollectionViewController: UICollectionViewController {
     }
 }
 
+//MARK: - UICollectionViewDelegateFlowLayout Extenstion
+//This extention was created to fix the number of collection view cells for row when running in different devices
+//Number of cell for row can be configured in Constants.swift class
 extension PhotoCollectionViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -142,6 +149,8 @@ extension PhotoCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+//MARK: - ZoomingViewController extension
+//This extension developed to make PhotoCollectionViewController conform to ZoomingViewController which is required get a zooming effect when viewing 600x600 image by clicking on thumbinail image
 extension PhotoCollectionViewController: ZoomingViewController {
     func zoomingImageView(for transition: ZoomTransitioningDelegate) -> UIImageView? {
         if let indexPath = selecteIndex, let cell = collectionView.cellForItem(at: indexPath) as? PhotoCollectionViewCell {
@@ -151,18 +160,21 @@ extension PhotoCollectionViewController: ZoomingViewController {
     }
 }
 
+//MARK: - Custom UICollectionViewCell
 class PhotoCollectionViewCell: UICollectionViewCell{
     
+    //MARK: - Properties
     @IBOutlet weak var thumbinailImageView: UIImageView!
     var photoViewModel: PhotoViewModel?
     var cancellables = Set<AnyCancellable>()
     
-    
+    //MARK: - View Life Cycle
     func setup() {
         setupView()
         setupViewModel()
     }
     
+    //MARK: - Layout Related
     private func setupView() {
         let placeholderImage = UIImage(named: "placeholderImage")
         thumbinailImageView.image = placeholderImage
@@ -174,6 +186,7 @@ class PhotoCollectionViewCell: UICollectionViewCell{
         cancellables.removeAll()
     }
     
+    //MARK: - ViewModel Bindings
     private func setupViewModel() {
         guard let photoViewModel = photoViewModel else {
             return

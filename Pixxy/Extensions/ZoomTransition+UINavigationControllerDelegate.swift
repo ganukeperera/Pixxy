@@ -7,12 +7,14 @@
 
 import UIKit
 
+//Views that need to be have zooming effect need to be conform to this protocol
 @objc
 protocol ZoomingViewController
 {
     func zoomingImageView(for transition: ZoomTransitioningDelegate) -> UIImageView?
 }
 
+//enmum to check the transition state
 enum TransitionState {
     case initial
     case final
@@ -20,14 +22,17 @@ enum TransitionState {
 
 class ZoomTransitioningDelegate: NSObject
 {
+    //MARK: - ZoomingViews type
+    typealias ZoomingViews = (otherView: UIView, imageView: UIView)
+    
+    //MARK: - Propertis
     var transitionDuration = 0.3
     var operation: UINavigationController.Operation = .none
     private let zoomScale = CGFloat(15)
     private let backgroundScale = CGFloat(0.7)
     
-    typealias ZoomingViews = (otherView: UIView, imageView: UIView)
     
-    func configureViews(for state: TransitionState, containerView: UIView, backgroundViewController: UIViewController, viewsInBackground: ZoomingViews, viewsInForeground: ZoomingViews, snapshotViews: ZoomingViews)
+    private func configureViews(for state: TransitionState, containerView: UIView, backgroundViewController: UIViewController, viewsInBackground: ZoomingViews, viewsInForeground: ZoomingViews, snapshotViews: ZoomingViews)
     {
         switch state {
         case .initial:
@@ -45,6 +50,7 @@ class ZoomTransitioningDelegate: NSObject
     }
 }
 
+//MARK: - UIViewControllerAnimatedTransitioning extention
 extension ZoomTransitioningDelegate : UIViewControllerAnimatedTransitioning
 {
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -118,6 +124,7 @@ extension ZoomTransitioningDelegate : UIViewControllerAnimatedTransitioning
     }
 }
 
+//MARK: - UINavigationControllerDelegate extension
 extension ZoomTransitioningDelegate : UINavigationControllerDelegate
 {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {

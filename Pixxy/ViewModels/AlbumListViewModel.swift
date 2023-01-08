@@ -8,6 +8,8 @@
 import Foundation
 import Combine
 
+//MARK: - ErrorType Enum
+//This enum is to decide on providing retry option when there is a error
 enum ErrorType {
     case APIError
     case ItemNotFound
@@ -16,6 +18,7 @@ enum ErrorType {
 
 class AlbumListViewModel: ObservableObject {
     
+    //MARK: - Properties
     @Published private(set) var isAlbumsLoading = false //Will Remove Activity Indicator
     @Published private(set) var reloadAlbumList = false //Will reload the Table View
     @Published private(set) var showErroMessage = false
@@ -31,15 +34,27 @@ class AlbumListViewModel: ObservableObject {
         }
     }
     
+    //MARK: - LifeTyme
     init(service: DataFetchable = AlbumService()) {
         self.albumService = service
     }
     
+    //MARK: - APIs provided for the View
     var numberOfSections: Int {
         if userList.isEmpty{
             return 1
         }
         return userList.count
+    }
+    
+    var isRetryAllowed: Bool{
+        
+        switch errorType {
+        case .APIError:
+            return true
+        default:
+            return false
+        }
     }
     
     func numberOfRowsInSection(section: Int) -> Int {
@@ -69,16 +84,6 @@ class AlbumListViewModel: ObservableObject {
             return allAlbums[row]
         }
         return albumViewModelDictionary[userList[section].id]?[row]
-    }
-    
-    var isRetryAllowed: Bool{
-        
-        switch errorType {
-        case .APIError:
-            return true
-        default:
-            return false
-        }
     }
     
     func retryAction() {
@@ -146,7 +151,6 @@ class AlbumListViewModel: ObservableObject {
             if let userList = userList {
                 self.userList = userList
                 userDictionary = userList.reduce(into: [Int: String]()) {
-                    print($1)
                     $0[$1.id] = $1.name
                 }
             }
@@ -168,6 +172,7 @@ class AlbumListViewModel: ObservableObject {
     }
 }
 
+//MARK: - AlbumViewModel
 struct AlbumViewModel {
     let albumID: Int
     let titleText: String

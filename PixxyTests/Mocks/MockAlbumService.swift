@@ -9,12 +9,15 @@ import Foundation
 import Combine
 
 class MockAlbumService: DataFetchable {
+    //MARK: - Properties
     private let servicesToBeFailed: [String]!
     
+    //MARK: - Lifetime
     init(servicesToBeFailed: [String] = []){
         self.servicesToBeFailed = servicesToBeFailed
     }
     
+    //MARK: - Service method
     func fetch<T>(endpoint: Endpoint, type: T.Type) -> Future<T, Error> where T : Decodable, T : Encodable {
         return Future<T, Error> { [weak self] promise in
             let fileName: String?

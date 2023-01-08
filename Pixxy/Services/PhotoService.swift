@@ -13,10 +13,12 @@ protocol ResourceLoader {
 }
 
 class PhotoService: ResourceLoader {
+    
     private var cancellable: AnyCancellable?
     
     deinit {
-        cancel()
+        //cancelling subscription
+        cancellable?.cancel()
     }
     
     func fetchData(from urlString: String) -> Future<Data,Error> {
@@ -44,12 +46,6 @@ class PhotoService: ResourceLoader {
                 }, receiveValue: {
                     promise(.success($0))
                 })
-            
         }
     }
-    
-    private func cancel() {
-        cancellable?.cancel()
-    }
-    
 }

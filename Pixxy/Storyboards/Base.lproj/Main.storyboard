@@ -10,6 +10,35 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="GVz-XN-rgB">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lF4-53-8wK" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="2rz-ZI-so0">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" name="PixxyNavBarBg"/>
+                        <color key="tintColor" name="PixxyNavBarTint"/>
+                        <color key="barTintColor" name="PixxyNavBarBg"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" name="PixxyNavBarLargeTitle"/>
+                        </textAttributes>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <color key="textColor" name="PixxyNavBarLargeTitle"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <outlet property="delegate" destination="AIM-BJ-5Hy" id="dtj-U1-fja"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="UhT-kd-UUG"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Po-sv-W0P" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <customObject id="AIM-BJ-5Hy" customClass="ZoomTransitioningDelegate" customModule="Pixxy" customModuleProvider="target"/>
+            </objects>
+            <point key="canvasLocation" x="69.565217391304358" y="77.678571428571431"/>
+        </scene>
         <!--Album List View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -18,18 +47,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0Md-3F-x1L">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0Md-3F-x1L">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="albumCellIdentifier" textLabel="s2P-hP-Y21" style="IBUITableViewCellStyleDefault" id="bU8-5V-Clu" customClass="AlbumListTableViewCell" customModule="Pixxy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="60"/>
+                                        <rect key="frame" x="20" y="32" width="374" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bU8-5V-Clu" id="wyR-Pk-HdT">
-                                            <rect key="frame" x="0.0" y="0.0" width="384.5" height="60"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="344.5" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s2P-hP-Y21">
-                                                    <rect key="frame" x="20" y="0.0" width="356.5" height="60"/>
+                                                    <rect key="frame" x="20" y="0.0" width="316.5" height="60"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="18"/>
                                                     <color key="textColor" name="PixxyTableCellTitle"/>
@@ -160,51 +189,26 @@
             </objects>
             <point key="canvasLocation" x="2787" y="78"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="GVz-XN-rgB">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lF4-53-8wK" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="2rz-ZI-so0">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="tintColor" name="PixxyNavBarTint"/>
-                        <color key="barTintColor" name="PixxyNavBarBg"/>
-                        <textAttributes key="titleTextAttributes">
-                            <color key="textColor" name="PixxyNavBarLargeTitle"/>
-                        </textAttributes>
-                        <textAttributes key="largeTitleTextAttributes">
-                            <color key="textColor" name="PixxyNavBarLargeTitle"/>
-                        </textAttributes>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <outlet property="delegate" destination="AIM-BJ-5Hy" id="dtj-U1-fja"/>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="UhT-kd-UUG"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0Po-sv-W0P" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <customObject id="AIM-BJ-5Hy" customClass="ZoomTransitioningDelegate" customModule="Pixxy" customModuleProvider="target"/>
-            </objects>
-            <point key="canvasLocation" x="69.565217391304358" y="77.678571428571431"/>
-        </scene>
     </scenes>
+    <color key="tintColor" name="MainTheme"/>
     <resources>
+        <namedColor name="MainTheme">
+            <color red="0.41200000047683716" green="0.16099999845027924" blue="0.81199997663497925" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="PixxyNavBarBg">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.94901961089999998" green="0.94509804249999996" blue="0.96470588450000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="PixxyNavBarLargeTitle">
             <color red="0.41200000047683716" green="0.16099999845027924" blue="0.81199997663497925" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="PixxyNavBarTint">
-            <color red="0.41200000050000002" green="0.16099999849999999" blue="0.81199997660000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.41200000047683716" green="0.16099999845027924" blue="0.81199997663497925" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="PixxyTableCellTitle">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="PixxyVCBg">
-            <color red="1" green="0.99599999189376831" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.94901961089999998" green="0.94509804249999996" blue="0.96470588450000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>

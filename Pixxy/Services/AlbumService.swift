@@ -45,11 +45,9 @@ class AlbumService: DataFetchable {
             guard let self = self else {
                 return promise(.failure(NetworkError.unknown))
             }
-            
             guard let url = endpoint.url() else {
                 return promise(.failure(NetworkError.unsupportedRequest))
             }
-            
             URLSession.shared.dataTaskPublisher(for: url)
                 .tryMap { (data, response) -> Data in
                     guard let httpResponse = response as? HTTPURLResponse, 200...299 ~= httpResponse.statusCode else {

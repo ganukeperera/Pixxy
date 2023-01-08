@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        URLCache.configSharedCache(memory: Constant.AppConfig.inMemoryImageCacheSize disk: Constant.AppConfig.diskImageCacheSize)
+        URLCache.configSharedCache(memory: Constant.AppConfig.inMemoryImageCacheSize, disk: Constant.AppConfig.diskImageCacheSize)
         return true
     }
 

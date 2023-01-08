@@ -150,7 +150,7 @@ extension PhotoCollectionViewController: UICollectionViewDelegateFlowLayout {
 }
 
 //MARK: - ZoomingViewController extension
-//This extension developed to make PhotoCollectionViewController conform to ZoomingViewController which is required get a zooming effect when viewing 600x600 image by clicking on thumbinail image
+//This extension developed to make PhotoCollectionViewController conform to ZoomingViewController which is required get a zooming effect when viewing 600x600 by clicking on thumbinail image
 extension PhotoCollectionViewController: ZoomingViewController {
     func zoomingImageView(for transition: ZoomTransitioningDelegate) -> UIImageView? {
         if let indexPath = selecteIndex, let cell = collectionView.cellForItem(at: indexPath) as? PhotoCollectionViewCell {

@@ -38,18 +38,13 @@ class PhotoDetailViewController: UIViewController {
         }
         photoDetailViewMode.$imageData
             .sink {[weak self] completion in
-                //TODO: kk
-                switch completion {
-                case .failure:
+                if case let .failure(error) = completion {
+                    print("Downloading failed for the image. Error: \(error.localizedDescription)")
                     DispatchQueue.main.async {
                         let brokenImage = UIImage(named: "brokenImage")
                         self?.photoImageView.image = brokenImage
                     }
-                    break
-                case .finished:
-                    break
                 }
-                
             } receiveValue: {[weak self] data in
                 DispatchQueue.main.async {
                     guard let data = data, let image = UIImage(data: data) else{

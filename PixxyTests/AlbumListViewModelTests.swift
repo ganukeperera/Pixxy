@@ -16,6 +16,7 @@ class AlbumListViewModelTests: XCTestCase {
     private var showErrorMessage: Bool = false
     
     override func setUp() {
+        
         super.setUp()
         cancellables = []
         shouldReloadData = false
@@ -23,7 +24,7 @@ class AlbumListViewModelTests: XCTestCase {
         showErrorMessage = false
     }
     
-    func test_fetch_albums_and_photos_success() {
+    func test_fetch_albums_and_users_success() {
         
         let albumListViewModel = AlbumListViewModel(service: MockAlbumService())
         let expectation = self.expectation(description: "FetchAlbums")
@@ -41,19 +42,19 @@ class AlbumListViewModelTests: XCTestCase {
         
         albumListViewModel.fetchAlbums()
         waitForExpectations(timeout: 10)
-        XCTAssertEqual(true, self.shouldReloadData)
+        XCTAssertTrue(self.shouldReloadData)
         XCTAssertEqual(10, albumListViewModel.numberOfSections)
         XCTAssertEqual(10, albumListViewModel.numberOfRowsInSection(section: 0))
         XCTAssertEqual(10, albumListViewModel.numberOfRowsInSection(section: 9))
     }
     
-    func test_emit_loading_done_when_album_and_user_requests_completed() {
+    func test_emit_loading_done_when_albums_and_users_requests_completed() {
         
         let albumListViewModel = AlbumListViewModel(service: MockAlbumService())
         let expectation = self.expectation(description: "FetchAlbums")
         
         albumListViewModel.$isAlbumsLoading
-            .dropFirst()
+            .dropFirst(2)
             .collect(1)
             .first()
             .sink(receiveCompletion: { completion in
@@ -66,7 +67,7 @@ class AlbumListViewModelTests: XCTestCase {
         albumListViewModel.fetchAlbums()
         
         waitForExpectations(timeout: 10)
-        XCTAssertEqual(false, self.isLoadingDataDone)
+        XCTAssertFalse(self.isLoadingDataDone)
         XCTAssertEqual(10, albumListViewModel.numberOfSections)
     }
     
@@ -91,12 +92,13 @@ class AlbumListViewModelTests: XCTestCase {
         
         albumListViewModel.fetchAlbums()
         waitForExpectations(timeout: 10)
-        XCTAssertEqual(true, self.shouldReloadData)
+        XCTAssertTrue(self.shouldReloadData)
         XCTAssertEqual(1, albumListViewModel.numberOfSections)
         XCTAssertEqual(100, albumListViewModel.numberOfRowsInSection(section: 0))
     }
     
-    func test_error_generated_when_both_album_and_user_get_failed() {
+    func test_error_generated_when_both_albums_and_users_requests_get_failed() {
+        
         let needToFailAPIs = ["Albums","Users"]
         let mockService = MockAlbumService(servicesToBeFailed: needToFailAPIs)
         let albumListViewModel = AlbumListViewModel(service: mockService)
@@ -114,8 +116,8 @@ class AlbumListViewModelTests: XCTestCase {
             .store(in: &cancellables)
         
         albumListViewModel.fetchAlbums()
-        waitForExpectations(timeout: 100)
-        XCTAssertEqual(true, self.showErrorMessage)
+        waitForExpectations(timeout: 10)
+        XCTAssertTrue(self.showErrorMessage)
         XCTAssertNotNil(albumListViewModel.errorMessage)
         XCTAssertEqual(true, albumListViewModel.isRetryAllowed)
     }

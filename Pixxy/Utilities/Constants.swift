@@ -24,6 +24,7 @@ struct Constant {
     
     struct AppConfig {
         static let diskImageCacheSize = 500*1024*1024 //500MB
+        static let inMemoryImageCacheSize = 20*1024*1024 //20MB
     }
     
     struct ViewConfig {

@@ -89,14 +89,14 @@ class PhotoCollectionViewController: UICollectionViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constant.SegueIdentifier.toPhotoDetailVC
-            {
-                if let destinationVC = segue.destination as? PhotoDetailViewController {
-                    if let indexPath = selecteIndex, let cell = collectionView.cellForItem(at: indexPath) as? PhotoCollectionViewCell {
-                        destinationVC.placeHolderImage = cell.thumbinailImageView.image
-                    }
-                    destinationVC.photoDetailViewMode = photoDetailViewModelForSelectedCell
+        {
+            if let destinationVC = segue.destination as? PhotoDetailViewController {
+                if let indexPath = selecteIndex, let cell = collectionView.cellForItem(at: indexPath) as? PhotoCollectionViewCell {
+                    destinationVC.placeHolderImage = cell.thumbinailImageView.image
                 }
+                destinationVC.photoDetailViewMode = photoDetailViewModelForSelectedCell
             }
+        }
     }
     
     //MARK: - Collection View DataSource Methods
@@ -112,6 +112,7 @@ class PhotoCollectionViewController: UICollectionViewController {
         }
         cell.photoViewModel = photoCollectionViewModel?.getPhotoViewModel(at: indexPath.row)
         cell.setup()
+        cell.accessibilityIdentifier = "PhotoCell_\(indexPath.section)_\(indexPath.row)" //For UITesting
         return cell
     }
     
@@ -130,12 +131,12 @@ class PhotoCollectionViewController: UICollectionViewController {
 extension PhotoCollectionViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
+        
         let noOfCellsInRow = Constant.ViewConfig.numberofPhotosForRow
         let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
         let totalSpace = flowLayout.sectionInset.left
-            + flowLayout.sectionInset.right
-            + (flowLayout.minimumInteritemSpacing * CGFloat(noOfCellsInRow - 1))
+        + flowLayout.sectionInset.right
+        + (flowLayout.minimumInteritemSpacing * CGFloat(noOfCellsInRow - 1))
         let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(noOfCellsInRow))
         return CGSize(width: size, height: size)
     }
@@ -156,6 +157,7 @@ class PhotoCollectionViewCell: UICollectionViewCell{
     var photoViewModel: PhotoViewModel?
     var cancellables = Set<AnyCancellable>()
     
+    
     func setup() {
         setupView()
         setupViewModel()
@@ -164,6 +166,12 @@ class PhotoCollectionViewCell: UICollectionViewCell{
     private func setupView() {
         let placeholderImage = UIImage(named: "placeholderImage")
         thumbinailImageView.image = placeholderImage
+    }
+    
+    //Remove all cancellables befor reusing the cell
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cancellables.removeAll()
     }
     
     private func setupViewModel() {

@@ -13,9 +13,7 @@ class AlbumListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     private var cancellables = Set<AnyCancellable>()
-    lazy var albumListViewModel: AlbumListViewModel = {
-        return AlbumListViewModel()
-    }()
+    var albumListViewModel: AlbumListViewModel!
     private var photoCollectionViewModelForSelectedItem: PhotoCollectionViewModel?
     
     override func viewDidLoad() {
@@ -84,6 +82,7 @@ class AlbumListViewController: UIViewController {
     private func showAlertMessage() {
         if let alertMessage = albumListViewModel.errorMessage {
             let alert = UIAlertController(title: NSLocalizedString("Alert.Title.Error", comment: "error"), message: alertMessage, preferredStyle: .alert)
+           
             if albumListViewModel.isRetryAllowed {
                 let alertAction = UIAlertAction(title: NSLocalizedString("Alert.Action.Retry", comment: "Retry"), style: .default) { [weak self] action in
                     self?.albumListViewModel.retryAction()
@@ -112,6 +111,7 @@ extension AlbumListViewController: UITableViewDataSource {
         bgColorView.backgroundColor = UIColor(named: "PixxyNavBarTint")
         cell.selectedBackgroundView = bgColorView
         cell.titleLabel.highlightedTextColor = .white
+        cell.accessibilityIdentifier = "Cell_\(indexPath.section)_\(indexPath.row)" //For UITesting
         return cell
     }
     

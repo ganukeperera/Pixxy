@@ -92,6 +92,7 @@ class AlbumListViewModel: ObservableObject {
     }
     
     func fetchAlbums() {
+        self.isAlbumsLoading = true
         self.errorOccurred = false
         self.errorType = ErrorType.none
         let albumEndopoint = AlbumEndpoint.fetchAllAlbums

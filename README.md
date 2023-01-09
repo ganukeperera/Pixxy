@@ -96,6 +96,7 @@ Since I have to develop the application using UIKit only, my options here are to
 
 I have written many test cases to test all my ViewModel and also, several UI tests to test view controllers. Current test coverage for the project is above 70%.
 
+
 ![Example screenshot](./images/coverage.png)
 
 

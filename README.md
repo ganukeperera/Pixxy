@@ -89,8 +89,7 @@ Since I have to develop the application using UIKit only, my options here are to
 ## Room for Improvement
 This application can be improved by adding following features
 
-Room for improvement:
-- Can add a search bar in the Album view so that user can search albums by album name or by album owner's name
-- Can automatically download and add the first thumbinail image of each album to the relevant table view cell. So, user can have a preview what kind of photos included in each album. This might be a good feature for a real photo application.
+- Can add a search bar in the Album view so that users can search albums by album name or by owner's name.
+- Can automatically download and add the first thumbinail image of each album to the relevant table view cell. So, user can have a preview what kind of photos included in each album. 
 
 

@@ -27,9 +27,9 @@
 
 
 ## General Information
-- This app has been developed to demonstrate the skills of architecting a production-ready iOS app by considering all posible aspect of iOS app development life cycle. 
+- This app has been developed to demonstrate the skills of architecting a production-ready app by considering all possible aspect of the iOS app development life cycle. 
 - I assumed it as a live application that needs to be developed and put into production within a short period. So all my Architectural decisions and other designs are based on that assumption.
-- I had to take certain assumption while desinging this app as the requirement was given in very highlevel. All my architectural decisions and assumptions are listed below.
+- All my architectural decisions and assumptions are listed below.
 
 
 ## Technologies Used
@@ -64,7 +64,7 @@ I select MVVM architecture. With MVVM, it’s easier to separate business logic 
 When start developing the application, there were several options that I could choose from. Those are Combine Framework, RxSwift, or Swift closures. I opted out RxSwift since I do not want to add any 3rd party dependencies to this particular project. Then I used the Combine framework as it also supports iOS 13 and up. 
 
 #### Concurrency
-I selected the Combine framework to perform all asynchronous tasks as I already decided to use it for model binding and opted out of using closures.
+I selected the Combine framework to perform all asynchronous tasks as I already decided to use it for model binding.
 
 #### Networking
 My options here are to use AlamoreFire for HTTP requests and use Kingfisher for downloading images. But I developed my own methods to deal with HTTP requests and image downloading functionality since both of them are 3rd party libraries.

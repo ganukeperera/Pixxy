@@ -100,6 +100,22 @@ class AlbumListViewController: UIViewController {
             present(alert, animated: true)
         }
     }
+    
+    //This method developed to support UI testing to run without network access
+    private func getAlbumService() -> DataFetchable{
+        var webService: DataFetchable!
+    #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-MockService") {
+            webService = MockAlbumService()
+        }else {
+            
+            webService = AlbumService()
+        }
+    #else
+        webService = AlbumService()
+    #endif
+        return webService
+    }
 }
 
 //MARK: - UITableViewDataSource
@@ -149,7 +165,7 @@ extension AlbumListViewController: UITableViewDelegate {
         guard let selectedViewModel = albumListViewModel.getAlbumViewModel(forSection: indexPath.section, forRow: indexPath.row) else {
             fatalError("Cannot load the album view model for the selected cell in AlbumListViewController")
         }
-        photoCollectionViewModelForSelectedItem = PhotoCollectionViewModel(albumID: selectedViewModel.albumID, albumTitle: selectedViewModel.titleText)
+        photoCollectionViewModelForSelectedItem = PhotoCollectionViewModel(albumID: selectedViewModel.albumID, albumTitle: selectedViewModel.titleText,photosService: self.getAlbumService())
         performSegue(withIdentifier: Constant.SegueIdentifier.toPhotoCollectionVC, sender: self)
     }
 }

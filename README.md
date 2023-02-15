@@ -3,10 +3,11 @@
 <p align="center">
     <img src="images/logo.png" alt="Logo" width="100" height="100">
   <p align="center">
-    Pixxy is a simple photo album application developed for iOS. >  [_Live Demo_](https://drive.google.com/file/d/12NfmBl_SAlEjKJyxicrXPxXOwu_Pm762/view?usp=sharing). 
+    Pixxy is a simple photo album application developed for iOS. 
   </p>
 </p>
 
+> Live demo [_here_](https://drive.google.com/file/d/12NfmBl_SAlEjKJyxicrXPxXOwu_Pm762/view?usp=sharing).
 
 <p align="row">
 <img src= "images/1.png" width="200" >
@@ -94,11 +95,13 @@ Since I have to develop the application using UIKit only, my options here are to
 
 ## Unit and UI Testing
 
-I have written many test cases to test all my ViewModel and also, several UI tests to test view controllers. Current test coverage for the project is above 70%.
+- I have written many test cases to test all my ViewModel and also, several UI tests to test view controllers. Current test coverage for the project is arround 80%. 
 
 <p align="row">
 <img src= "images/coverage.png" width="600" >
 </p>
+
+- Developed two Mock Services to test the application removing the dependancy on network. 
 
 ## Room for Improvement
 This application can be improved by adding following features

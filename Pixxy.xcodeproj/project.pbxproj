@@ -18,6 +18,7 @@
 		C33F496329668B2B008A8619 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33F496229668B2B008A8619 /* PhotoDetailViewController.swift */; };
 		C33F496529668BBD008A8619 /* PhotoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33F496429668BBD008A8619 /* PhotoDetailViewModel.swift */; };
 		C33F49692966E064008A8619 /* ZoomTransition+UINavigationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33F49682966E063008A8619 /* ZoomTransition+UINavigationControllerDelegate.swift */; };
+		C34B92E0296C30D700774409 /* MockPhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36E4684296AF8510018D129 /* MockPhotoService.swift */; };
 		C34ED8E329616B5F00E7AE77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34ED8E229616B5F00E7AE77 /* AppDelegate.swift */; };
 		C34ED8E529616B5F00E7AE77 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34ED8E429616B5F00E7AE77 /* SceneDelegate.swift */; };
 		C34ED8E729616B5F00E7AE77 /* AlbumListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34ED8E629616B5F00E7AE77 /* AlbumListViewController.swift */; };
@@ -451,6 +452,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C34B92E0296C30D700774409 /* MockPhotoService.swift in Sources */,
 				C33F496529668BBD008A8619 /* PhotoDetailViewModel.swift in Sources */,
 				C39014102964F5C900CE28DF /* URLCache+AlbumImageCache.swift in Sources */,
 				C33F49692966E064008A8619 /* ZoomTransition+UINavigationControllerDelegate.swift in Sources */,

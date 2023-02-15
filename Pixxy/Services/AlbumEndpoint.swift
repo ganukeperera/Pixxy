@@ -30,7 +30,7 @@ extension Endpoint {
     }
 }
 
-//Configure all endpoints by conforming to Endpoint protocol
+//Configure all endpoints by conforming to Endpoint  protocol
 enum AlbumEndpoint: Endpoint {
     
     case fetchAllAlbums

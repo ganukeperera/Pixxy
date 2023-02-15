@@ -92,6 +92,22 @@ class PhotoCollectionViewController: UICollectionViewController {
         }
     }
     
+    //This method developed to support UI testing to run without network access
+    private func getPhotoService() -> ResourceLoader {
+        var photoService: ResourceLoader!
+#if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-MockService") {
+            photoService = MockPhotoService(photoType: .originalImage)
+        }else {
+            
+            photoService = PhotoService()
+        }
+#else
+        photoService = PhotoService()
+#endif
+        return photoService
+    }
+    
     //MARK: - UIStoryboardSegue Handling
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constant.SegueIdentifier.toPhotoDetailVC
@@ -127,7 +143,7 @@ class PhotoCollectionViewController: UICollectionViewController {
             return
         }
         selecteIndex = indexPath
-        photoDetailViewModelForSelectedCell = PhotoDetailViewModel(photoURL: selectedPhotoViewModel.url, photoTitle: selectedPhotoViewModel.title)
+        photoDetailViewModelForSelectedCell = PhotoDetailViewModel(photoURL: selectedPhotoViewModel.url, photoTitle: selectedPhotoViewModel.title, photoService: self.getPhotoService())
         performSegue(withIdentifier: Constant.SegueIdentifier.toPhotoDetailVC, sender: self)
     }
 }

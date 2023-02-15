@@ -95,11 +95,27 @@ class PhotoCollectionViewModel: ObservableObject {
         DispatchQueue.global(qos: .userInitiated).async {
             var viewModelList = [PhotoViewModel]()
             for photo in photoList {
-                let photoViewModel = PhotoViewModel(title: photo.title, thumbnailUrl: photo.thumbnailUrl, url: photo.url)
+                let photoViewModel = PhotoViewModel(title: photo.title, thumbnailUrl: photo.thumbnailUrl, url: photo.url, photoService: self.getPhotoService())
                 viewModelList.append(photoViewModel)
             }
             self.photoViewModels = viewModelList
         }
+    }
+    
+    //This method developed to support UI testing to run without network access
+    private func getPhotoService() -> ResourceLoader{
+        var photoService: ResourceLoader!
+#if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-MockService") {
+            photoService = MockPhotoService(photoType: .thumbinailImage)
+        }else {
+            
+            photoService = PhotoService()
+        }
+#else
+        photoService = PhotoService()
+#endif
+        return photoService
     }
 }
 

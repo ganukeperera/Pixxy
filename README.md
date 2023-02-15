@@ -27,10 +27,9 @@
 
 
 ## General Information
-- This app has been developed to demonstrate the skills of providing a production-ready iOS app. 
-- Even though this is an assignment, I assumed it as a live application that needs to be developed and put into production within a short period. So all my Architectural decisions and other designs are based on that assumption.
+- This app has been developed to demonstrate the skills of architecting a production-ready iOS app by considering all posible aspect of iOS app development life cycle. 
+- I assumed it as a live application that needs to be developed and put into production within a short period. So all my Architectural decisions and other designs are based on that assumption.
 - I had to take certain assumption while desinging this app as the requirement was given in very highlevel. All my architectural decisions and assumptions are listed below.
-- The evaluator of this project kindly requested to contact me using the following email address for clarifications. ganuke@gmail.com
 
 
 ## Technologies Used
@@ -59,13 +58,13 @@
 Due to security issues, I have opted out of any version below iOS 13. After checking the current iOS version usage, I decided to opted iOS 13 as the minimum supported OS since I want this app to be used by many users. [_current usage_](https://iosref.com/ios-usage)
  
 #### Application Architecture
-I select MVVM architecture. With MVVM, it’s easier to separate business logic from presentation logic which improves the testability of the app. One prime goal of this application is to have a very good coverage.
+I select MVVM architecture. With MVVM, it’s easier to separate business logic from presentation logic which improves the testability of the app. One prime goal of this application is to have a very good test coverage.
 
 #### Model Binding
 When start developing the application, there were several options that I could choose from. Those are Combine Framework, RxSwift, or Swift closures. I opted out RxSwift since I do not want to add any 3rd party dependencies to this particular project. Then I used the Combine framework as it also supports iOS 13 and up. 
 
 #### Concurrency
-Since Swift's Async/Await is supported by iOS 15 and above I can't use it in this app. Then I selected the Combine framework to perform all asynchronous tasks as I already decided to use it for model binding and opted out of using closures.
+I selected the Combine framework to perform all asynchronous tasks as I already decided to use it for model binding and opted out of using closures.
 
 #### Networking
 My options here are to use AlamoreFire for HTTP requests and use Kingfisher for downloading images. But I developed my own methods to deal with HTTP requests and image downloading functionality since both of them are 3rd party libraries.
@@ -74,14 +73,14 @@ My options here are to use AlamoreFire for HTTP requests and use Kingfisher for 
 This application uses URLCaches to chach images. It uses in memory cache as well as uses disk space. Amount of the memory and disk space to be used for the cache is configurable. 
 
 #### UIs
-Since I have to develop the application using UIKit only, my options here are to use storyboards or do UI programmatically. Due to the time constraints of this project and I will be the only developer, I chose to do UIs using Storyboards which is faster. So I can use saved time to other important tasks similar to completing more Unit and UI testings which are important. 
+Due to the time constraints of this project and I will be the only developer, I chose to do UIs using Storyboards which is faster. So I can use saved time to other important tasks similar to completing more Unit and UI testings which are important. 
  
 ### Application Flow
 
 #### Dealing with Network Failures
 - This application pulls data from 3 web services. Those are Albums, Users, and Photos. So I had to decide what needs to be done when each service gets failed. So I designed the application in the following way. 
 
-- Since there is no dependency between Album and Users endpoints, I send both requests parallelly. Then I waited and process both responses at once. To achieve that I use DispatchGroup. Combine's Zip operator is also a good candidate to fulfill this requirement.
+- Since there is no dependency between Album and Users endpoints, I send both requests parallelly. Then I wait and process both responses at once. To achieve that I used DispatchGroup. Combine's Zip operator is also a good candidate to fulfill this requirement.
 
 - The app will process both User's and Album's responses and categorize albums based on their owner if both requests get completed without any issues. Then the app will list albums in different sections by displaying the owner's name in the section header. 
 
@@ -106,8 +105,8 @@ Since I have to develop the application using UIKit only, my options here are to
 ## Room for Improvement
 This application can be improved by adding following features
 
-- Can add a search bar in the Album view so that users can search albums by album name or by owner's name.
-- Can automatically download and add the first thumbinail image of each album to the relevant table view cell. So, user can have a preview what kind of photos included in each album. 
+- Add a search bar in the Album view so that users can search albums by album name or by owner's name.
+- Automatically download and add the first thumbinail image of each album to the relevant table view cell. So, user can have a preview what kind of photos included in each album. 
 
 
 ### Thank you.
